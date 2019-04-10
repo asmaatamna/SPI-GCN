@@ -11,7 +11,7 @@ def get_graph_data(ds_name):
     Returns:
     - List of adjacency matrices
     - List of node attribute matrices
-    - List of graph labels (0 or 1)
+    - List of graph labels
     
     Example:
         As, Xs, labels = get_graph_data()
