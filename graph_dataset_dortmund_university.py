@@ -18,7 +18,7 @@ def get_graph_data(ds_name):
     """
     adjacency_matrices = []
     features_matrices = []
-    data_dir = 'DS_all/' # Datasets location. To bo changed if needed
+    data_dir = './' # Datasets location. To bo changed if needed
     edges = [(x[0], x[1]) for x in np.loadtxt(data_dir + ds_name + '/' + ds_name +  '_A.txt', delimiter=',')]
     nodes = np.loadtxt(data_dir + ds_name + '/' + ds_name +  '_graph_indicator.txt', dtype='int')
     
