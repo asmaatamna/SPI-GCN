@@ -141,4 +141,4 @@ for run in range(runs):
         print('Run {}, fold {}: training error: {:.3f}, test accuracy: {:.3f}'.format(run, i, loss, test_accuracies[-1]))
 
 # Save test accuracies in a .txt file
-np.savetxt('./Supervised_learning_experiments_with_GCN/Test-accuracies/' + ds_name + '/' + ds_name + '_test_accuracies_10-fold-cv_' + str(runs) + 'x_' + str(epochs) + '_epochs_lr_' + str(lr) + '_weight_decay_' + str(wd) + '_seed_' + str(run) + '.txt', test_accuracies)
+np.savetxt('./Test-accuracies/' + ds_name + '/' + ds_name + '_test_accuracies_10-fold-cv_' + str(runs) + 'x_' + str(epochs) + '_epochs_lr_' + str(lr) + '_weight_decay_' + str(wd) + '_seed_' + str(run) + '.txt', test_accuracies)
