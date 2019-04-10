@@ -6,31 +6,6 @@ from torch.utils.data.dataset import Dataset
 import numpy as np
 import graph_dataset_dortmund_university as udortmund
 
-# Define customized dataset class
-class CrystalGraphDataset(Dataset):
-    """
-    Note: We don't return the lattice parameters here
-    as we don't use them when the POSCAR files are "cartesian".
-    """
-
-    def __init__(self, crystal_graphs):
-        self.size = len(crystal_graphs)
-        self.crystal_graphs = crystal_graphs
-
-    def __getitem__(self, index):
-        assert index < self.__len__(), "Error: index out of range"
-        A, X = self.crystal_graphs[index]
-        # Padding with zeros so that all the items of the data set have the same size
-        nb_vertices_max = max([len(a[0]) for a in self.crystal_graphs])
-        res_A = np.zeros((nb_vertices_max, nb_vertices_max))
-        res_X = np.zeros((nb_vertices_max, X.shape[1]))
-        res_A[:A.shape[0], :A.shape[1]] = A
-        res_X[:X.shape[0], :] = X
-        return res_A, res_X
-
-    def __len__(self):
-        return self.size
-
 # Define customized synthetic dataset class
 class GraphDataset(Dataset):
     """
@@ -59,7 +34,7 @@ class GraphDataset(Dataset):
     def __len__(self):
         return self.size
 
-# Define customized dataset class
+# Define customized dataset class (labelled crystals)
 class EnergyDataset(Dataset):
     """
     Returns the list of crystals in graph form along with enthalpy values
