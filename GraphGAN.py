@@ -49,10 +49,8 @@ class GraphConvolutionModule(nn.Module):
     """
 
     def __init__(self, d, f):
-        # d: dimension of the feature space, i.e. the size of a vector x representing an atom
-        # in the POSCAR
-        # f: dimension of the embedding space, i.e. the size of a vector x' representing an atom
-        # in the feature space
+        # d: dimension of the feature space, i.e. the size of a vector x representing a vertex
+        # f: dimension of thevertex embedding space
         super(GraphConvolutionModule, self).__init__()
         h =  128
         self.W_0 = nn.Linear(d, h, bias=False)
@@ -67,9 +65,9 @@ class GraphConvolutionModule(nn.Module):
         else:
             norm_A = A
         res = F.tanh(self.W_0(torch.matmul(norm_A, X)))
-        res = F.softmax(self.W_1(torch.matmul(norm_A, res)), dim=-1) # F.softmax(self.W_1(torch.matmul(norm_A, res)), dim=-1) # F.tanh(self.W_1(torch.matmul(norm_A, res)))
-        graph_embedding = res.sum(dim=-2) # res.sum(dim=-2) # res.max(dim=-2)[0] # res.sum(dim=-2) # New addition for classical conv.: keepdim=True
-        return graph_embedding # .transpose(-2, -1) # Was: graph_embedding
+        res = F.softmax(self.W_1(torch.matmul(norm_A, res)), dim=-1)
+        graph_embedding = res.sum(dim=-2) 
+        return graph_embedding
 
     def normalize_adjacency_matrix(self, A):
         assert A.shape[0] == A.shape[1], "Error: Adjacency matrix must be a square matrix"
@@ -83,10 +81,9 @@ class ClassificationModule(nn.Module):
     """
 
     def __init__(self, d, f, out):
-        # d: dimension of the feature space, i.e. the size of a vector x representing an atom
-        # in the POSCAR
-        # f: dimension of the embedding space, i.e. the size of a vector x' representing an atom
-        # in the feature space
+        # d: dimension of the feature space
+        # f: dimension of the embedding space
+        # out: number of classes
         super(ClassificationModule, self).__init__()
         # Make sure out > 0
         assert out > 0, "Error: output size must be larger than zero"
@@ -97,14 +94,12 @@ class ClassificationModule(nn.Module):
 
     def forward(self, A, X):
         res = self.graph_conv(A, X)
-        # res = F.relu(self.conv1d(res))
-        # res = self.max_pool(res)
 
         # If binary classification problem:
-        # res = F.sigmoid(self.mlp(graph_embedding))
+        # res = F.sigmoid(self.mlp(res))
         #
-        # If larger than binary:
-        # res = F.softmax(self.mlp(graph_embedding), dim=-1)
+        # If more than two classes:
+        # res = F.softmax(self.mlp(res), dim=-1)
         if self.out == 1:
             res = F.sigmoid(self.mlp(res))
         else:
