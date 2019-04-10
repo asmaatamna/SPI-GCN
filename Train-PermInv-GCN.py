@@ -120,7 +120,7 @@ for run in range(runs):
         if ds_type == 'public':
             As, Xs, labels = next(iter(train_dataloader)) # Note: Adapt the number of returned elements to your dataset
             test_As, test_Xs, test_labels = next(iter(test_dataloader))
-        if ds_type == 'crystal':
+        if ds_type == 'hydrides':
             As, Xs, _, labels = next(iter(train_dataloader))
             test_As, test_Xs, _, test_labels = next(iter(test_dataloader))
         for epoch in range(epochs):
