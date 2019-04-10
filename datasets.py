@@ -77,50 +77,12 @@ class EnergyDataset(Dataset):
     def __getitem__(self, index):
         assert index < self.__len__(), "Error: index out of range"
         A, X = self.crystal_graphs[index]
-        # Padding with zeros so that all the items of the data set have the same size
+        # Padding with zeros so that all the items of the dataset have the same size
         res_A = np.zeros((self.nb_vertices_max, self.nb_vertices_max))
         res_X = np.zeros((self.nb_vertices_max, X.shape[1]))
         res_A[:A.shape[0], :A.shape[1]] = A
         res_X[:X.shape[0], :] = X
         return res_A, res_X, self.enthalpies[index], self.labels[index]
-
-    def __len__(self):
-        return self.size
-
-
-
-# Define customized synthetic graph + energy dataset class
-class SyntheticEnergyDataset(Dataset):
-    """
-    Generates a set of 'size' adjacency, features matrices, and enthalpies, and labels (stable/non-stable)
-    from a probabilistic adjacency matrix.
-    """
-
-    def __init__(self, prob_A, dim, size=1000):
-        assert prob_A.shape[0] == prob_A.shape[1], "Error: Adjacency matrix must be a square matrix"
-        self.size = size
-        self.adjacency_matrices = []
-        self.features_matrices = []
-        self.is_stable = []
-        for i in range(size):
-            # We want to generate a symmetric matrix, therefore we only
-            # take the upper triangular part of the matrix sampled from prob_A
-            # and mirror it
-            res = np.triu(np.random.binomial(1, p=prob_A).astype(np.float64), k=1)
-            self.adjacency_matrices.append(res + res.transpose())
-        # self.adjacency_matrices = [np.random.binomial(1, p=prob_A) for i in range(nb_graphs)]
-        for _ in range(size // 2):
-            self.features_matrices.append(np.random.rand(prob_A.shape[0], dim))
-            self.is_stable.append(1.)
-        for _ in range(size - size // 2):
-            self.features_matrices.append(-np.random.rand(prob_A.shape[0], dim))
-            self.is_stable.append(0.)
-
-        self.enthalpies = np.random.rand(self.size)
-
-    def __getitem__(self, index):
-        assert index < self.__len__(), "Error: index out of range"
-        return self.adjacency_matrices[index], self.features_matrices[index], self.enthalpies[index], self.is_stable[index]
 
     def __len__(self):
         return self.size
@@ -133,18 +95,11 @@ class UDortmundGraphDataset(Dataset):
         As, Xs, labels = udortmund.get_graph_data(ds_name)
 
         self.nb_vertices_max = max([len(a) for a in As]) # 100
-        self.d_max = max([x.shape[1] for x in Xs]) # Maximum features number for a node (different from graph to graph ony when node features aren't available)
+        self.d_max = max([x.shape[1] for x in Xs]) # Maximum features number for a node (different from graph to graph only when node features aren't available)
 
-        # tmp_As = [As[i] for i in range(len(As)) if len(As[i]) <= self.nb_vertices_max]
-        # tmp_Xs = [Xs[i] for i in range(len(Xs)) if len(As[i]) <= self.nb_vertices_max]
-        # tmp_labels = [labels[i] for i in range(len(labels)) if len(As[i]) <= self.nb_vertices_max]
-
-        # train_idx = np.random.choice(len(tmp_As), size=int(0.8 * len(tmp_As)), replace=False)
-        # test_idx = [i for i in range(len(tmp_As)) if i not in train_idx]
-
-        self.As = np.array(As) # [train_idx]
-        self.Xs = np.array(Xs) # [train_idx]
-        self.labels = np.array(labels) # [train_idx]
+        self.As = np.array(As)
+        self.Xs = np.array(Xs)
+        self.labels = np.array(labels)
 
         self.size = len(self.As)
 
