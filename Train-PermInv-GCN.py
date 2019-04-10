@@ -47,7 +47,6 @@ if ds_type == 'crystal':
     # Also, get the max. graph size (max. number of vertices)
     crystal_graphs = []
     energetic_data = np.empty((0, 4))
-    # Rb has been removed since its enthalpy values are too large compared to other metals'
     atomic_symbols = ['Ag', 'Ca', 'Cd', 'Co', 'Cu', 'Fe', 'Hf', 'K', 'Mg', 'Mn', 'Mo', 'Na', 'Nb', 'Ni', 'Pd', 'Pt', 'Rh', 'Ru', 'Sc', 'Sr', 'Ta', 'Tc', 'Ti', 'V', 'Y', 'Zn', 'Zr']
     energetic_data_all = edc.get_energetic_data()
     nb_vertices_max = 0 # Maximal number of vertices (atoms) contained in a graph (i.e. POSCAR file)
@@ -142,4 +141,4 @@ for run in range(runs):
         print('Run {}, fold {}: training error: {:.3f}, test accuracy: {:.3f}'.format(run, i, loss, test_accuracies[-1]))
 
 # Save test accuracies in a .txt file
-np.savetxt('./Supervised_learning_experiments_with_GCN/Test-accuracies/' + ds_name + '/' + ds_name + '_test_accuracies_10-fold-cv_' + str(runs) + 'x_' + str(epochs) + '_epochs_lr_' + str(lr) + '_weight_decay_' + str(wd) + '_seed_' + str(run) + '_relu.txt', test_accuracies)
+np.savetxt('./Supervised_learning_experiments_with_GCN/Test-accuracies/' + ds_name + '/' + ds_name + '_test_accuracies_10-fold-cv_' + str(runs) + 'x_' + str(epochs) + '_epochs_lr_' + str(lr) + '_weight_decay_' + str(wd) + '_seed_' + str(run) + '.txt', test_accuracies)
