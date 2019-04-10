@@ -10,7 +10,7 @@ import sys
 import warnings
 import sklearn.metrics
 from statsmodels.distributions.empirical_distribution import ECDF
-import GraphGAN as gg
+import spigcn as spi
 import datasets as ds
 import crystal_data_manipulations as cdm
 import energetic_data_calculations as edc
@@ -104,7 +104,7 @@ for run in range(runs):
     # Training
     ntimes = k if cv else 1
     for i in range(ntimes):
-        net = gg.ClassificationModule(d, f, out)
+        net = spi.ClassificationModule(d, f, out)
         net.double()
         criterion = F.cross_entropy if out > 1 else F.binary_cross_entropy
         optimizer = optim.Adam(net.parameters(), lr=lr, weight_decay=wd)
