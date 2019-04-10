@@ -34,15 +34,15 @@ ds_type = sys.argv[1]
 # 	COLLAB (TODO)
 # 	NCI1
 #
-# For the non-public dataset (crystal) use:
-# 	CRYSTALS
+# For the chemical dataset use:
+# 	HYDRIDES
 ds_name = sys.argv[2]
 runs = int(sys.argv[3])
 epochs = int(sys.argv[4])
 lr = float(sys.argv[5]) # Learning rate for Adam
 wd = float(sys.argv[6]) # Weight decay for Adam
 
-if ds_type == 'crystal':
+if ds_type == 'hydrides':
     # Load crystal training data, transform them to graphs, and store them in a list
     # Also, get the max. graph size (max. number of vertices)
     crystal_graphs = []
