@@ -6,6 +6,6 @@ To be able to run our code, you need to install the following dependencies:
 - pymatgen: a Python package for materials science. Needed to be able to test SPI-GCN on the HYDRIDES data set
   of metal hydrides (convert chemical data from POSCAR format to graph format)
   
-  Asma Atamna
-  atamna@icmpe.cnrs.fr
+  Asma Atamna,
+  atamna@icmpe.cnrs.fr,
   April 10th, 2019
