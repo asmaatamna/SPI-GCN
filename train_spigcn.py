@@ -56,7 +56,7 @@ if ds_type == 'hydrides':
         file_names = os.listdir(poscars_directory)
         for i in range(len(file_names)):
             A, X = cdm.get_graph_representation(poscars_directory + "POSCAR_" + str(i + 1), ['H'] + atomic_symbols[inf_idx:sup_idx], is_cartesian=True)
-            if len(A) > nb_vertices_max: # We subtract the tree atoms corresponding to the lattice parameters
+            if len(A) > nb_vertices_max:
                 nb_vertices_max = len(A)
             crystal_graphs.append((A, X))
 
