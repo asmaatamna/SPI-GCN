@@ -30,7 +30,7 @@ class MLP(nn.Module):
         self.deterministic_output = nn.Sequential(
             nn.Linear(in_dim, h_dim),
             nn.BatchNorm1d(h_dim, track_running_stats=False),
-            nn.ReLU(), # nn.Tanh() # nn.ReLU()
+            nn.Tanh()
             # nn.Dropout(),
             nn.Linear(h_dim, out_dim)
         )
