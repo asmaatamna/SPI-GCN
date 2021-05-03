@@ -7,5 +7,5 @@ To be able to run our code, you need to install the following dependencies:
   of metal hydrides (convert chemical data from POSCAR format to graph format)
   
   Asma Atamna,
-  atamna@icmpe.cnrs.fr,
+  https://sites.google.com/site/asmaatamnaspage/,
   April 10th, 2019
